@@ -14,5 +14,10 @@
         android:title="@string/setting"
         android:icon="@drawable/ic_settings_24"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/mfavorite"
+        android:title="@string/setting"
+        android:icon="@drawable/ic_favorite_full_24"
+        app:showAsAction="always"/>
 
 </menu>
