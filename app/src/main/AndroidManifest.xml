@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mysubmission3">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySubmission3"
         tools:ignore="AllowBackup">
+        <activity android:name=".MyFavoriteUserActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
