@@ -61,9 +61,6 @@ class DetailActivity : AppCompatActivity() {
         val url = intentUsers.url.toString()
         val image = intentUsers.image.toString()
         val id = intentUsers.id
-        Log.d("log api user: ", userName)
-        Log.d("log api url: ", url)
-        Log.d("log api image: ", image)
 
         val pagerAdapter = PagerAdapter(
                 userName,
@@ -75,6 +72,8 @@ class DetailActivity : AppCompatActivity() {
 
         showLoading(true)
         showDetail(userName)
+
+        favAdapter= ListAdapter()
 
         favoriteHelper = FavoriteHelper.getInstance(applicationContext)
         favoriteHelper.open()
@@ -88,17 +87,24 @@ class DetailActivity : AppCompatActivity() {
             if (statusFavorite) {
 
                 val values = ContentValues()
+                values.put(DatabaseContract.FavColumns._ID, id)
                 values.put(DatabaseContract.FavColumns.USERNAME, userName)
                 values.put(DatabaseContract.FavColumns.URL, url)
                 values.put(DatabaseContract.FavColumns.IMAGE, image)
-                Log.d("log api val: ", values.toString())
-
                 favoriteHelper.insert(values)
+
+                val user = ModelData()
+                user.userName = userName
+                favAdapter.addItem(user)
+
+
                 "Satu item berhasil ditambah".showSnackbarMessage()
+                statusFavorite = true
 
             } else {
                 favoriteHelper.deleteById(id.toString())
                 "Satu item berhasil dihapus".showSnackbarMessage()
+                statusFavorite = false
             }
             setStatusFavorite(statusFavorite)
         }
@@ -114,13 +120,14 @@ class DetailActivity : AppCompatActivity() {
 
     private fun loadFavAsync(username: String) {
 
-        val cursor = favoriteHelper.queryById(username)
+        val cursor = favoriteHelper.queryByUsername(username)
         val listfav =  MappingHelper.mapCursorToArrayList(cursor)
 
         if (listfav.size > 0) {
             statusFavorite = true
         }
-
+        setStatusFavorite(statusFavorite)
+        Log.d("uname =", username)
     }
 
 

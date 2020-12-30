@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import com.example.mysubmission3.db.DatabaseContract.FavColumns.Companion.TABLE_NAME
+import com.example.mysubmission3.db.DatabaseContract.FavColumns.Companion.USERNAME
 import com.example.mysubmission3.db.DatabaseContract.FavColumns.Companion._ID
 
 class FavoriteHelper(context: Context){
@@ -48,6 +49,17 @@ class FavoriteHelper(context: Context){
                 null,
                 "$_ID = ?",
                 arrayOf(id),
+                null,
+                null,
+                null,
+                null)
+    }
+    fun queryByUsername(username: String): Cursor {
+        return database.query(
+                DATABASE_TABLE,
+                null,
+                "$USERNAME = ?",
+                arrayOf(username),
                 null,
                 null,
                 null,

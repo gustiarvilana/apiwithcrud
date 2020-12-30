@@ -12,7 +12,7 @@ internal class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATA
         private val DATABASE_VERSION = 1
 
         private val SQL_CREATE_TABLE_NOTE = "CREATE TABLE $TABLE_NAME" +
-                "(${DatabaseContract.FavColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "(${DatabaseContract.FavColumns._ID} INTEGER PRIMARY KEY," +
                 "${DatabaseContract.FavColumns.USERNAME} TEXT NOT NULL," +
                 "${DatabaseContract.FavColumns.URL} TEXT NOT NULL," +
                 "${DatabaseContract.FavColumns.IMAGE} TEXT NOT NULL)"

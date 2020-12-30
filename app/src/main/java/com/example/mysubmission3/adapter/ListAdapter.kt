@@ -12,12 +12,6 @@ import com.example.mysubmission3.entity.ModelData
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.ListViewolde>() {
 
-    private var onitemClikCallBack: OnitemClikCallBack? = null
-
-    fun setOnItemClickCallBack(onitemClikCallBack: OnitemClikCallBack){
-        this.onitemClikCallBack = onitemClikCallBack
-    }
-
     var listData = ArrayList<ModelData>()
 
     fun setData(items: ArrayList<ModelData>) {
@@ -70,6 +64,12 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ListViewolde>() {
         this.listData.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeRemoved(position, this.listData.size)
+    }
+
+    private var onitemClikCallBack: OnitemClikCallBack? = null
+
+    fun setOnItemClickCallBack(onitemClikCallBack: OnitemClikCallBack){
+        this.onitemClikCallBack = onitemClikCallBack
     }
 
 }

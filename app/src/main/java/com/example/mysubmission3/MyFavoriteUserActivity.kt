@@ -1,64 +1,83 @@
 package com.example.mysubmission3
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mysubmission3.adapter.ListAdapter
 import com.example.mysubmission3.databinding.ActivityMyFavoriteUserBinding
+import com.example.mysubmission3.db.FavoriteHelper
 import com.example.mysubmission3.entity.ModelData
+import com.example.mysubmission3.helper.MappingHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class MyFavoriteUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMyFavoriteUserBinding
     private lateinit var favAdapter: ListAdapter
+    private lateinit var favHelper: FavoriteHelper
+
+    companion object{
+        private const val EXTRA_STATE = "extra_state"
+        private const val PARCELABLE = "parcelable"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyFavoriteUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (data != null) {
-            when (requestCode) {
-                DetailActivity.REQUEST_ADD -> if (resultCode == DetailActivity.RESULT_ADD) {
-                    val user =
-                        data.getParcelableExtra<ModelData>(DetailActivity.INTENT_PARCELABLE)!!
-                    Log.d("data note= ", user.toString())
+        binding.rvFavorite.layoutManager = LinearLayoutManager(this)
+        binding.rvFavorite.setHasFixedSize(true)
+        favAdapter = ListAdapter()
+        binding.rvFavorite.adapter = favAdapter
 
-                    favAdapter.addItem(user)
-                    binding.rvFavorite.smoothScrollToPosition(favAdapter.itemCount - 1)
+        favHelper = FavoriteHelper.getInstance(applicationContext)
+        favHelper.open()
 
-                    Toast.makeText(this@MyFavoriteUserActivity, "Satu tem berhasil dtambahkan", Toast.LENGTH_SHORT).show()
-                }
-                DetailActivity.REQUEST_UPDATE ->
-                    when (resultCode) {
-                        DetailActivity.RESULT_UPDATE -> {
-                            val note =
-                                data.getParcelableExtra<ModelData>(DetailActivity.INTENT_PARCELABLE) !!
-                            val position =
-                                data.getIntExtra(DetailActivity.EXTRA_POSITION, 0)
-
-                            favAdapter.updateItem(position, note)
-                            binding.rvFavorite.smoothScrollToPosition(position)
-
-                            Toast.makeText(this@MyFavoriteUserActivity, "Satu item berhasil diubah", Toast.LENGTH_SHORT).show()
-
-                        }
-                        DetailActivity.RESULT_DELETE -> {
-                            val position =
-                                data.getIntExtra(DetailActivity.EXTRA_POSITION, 0)
-                            favAdapter.removeItem(position)
-                            Toast.makeText(this@MyFavoriteUserActivity, "Satu item berhasil dihapus", Toast.LENGTH_SHORT).show()
-
-                        }
-                    }
+        loadFavAsync()
+        if (savedInstanceState == null) {
+            loadFavAsync()
+        }else{
+            val list = savedInstanceState.getParcelableArrayList<ModelData>(EXTRA_STATE)
+            if (list != null){
+                favAdapter.listData = list
             }
         }
     }
 
+    private fun loadFavAsync() {
+//        val user = favHelper.queryAll()
+//        MappingHelper.mapCursorToArrayList(user)
+//        Log.d("val user = ", user.toString())
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val deferredNotes = async(Dispatchers.IO) {
+                val cursor = favHelper.queryAll()
+                MappingHelper.mapCursorToArrayList(cursor)
+            }
+            val user = deferredNotes.await()
+            Log.d("data user = ", user.toString())
+            if (user.size > 0) {
+                favAdapter.setData(user)
+
+            } else {
+                favAdapter.listData = ArrayList()
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(EXTRA_STATE, favAdapter.listData)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        favHelper.close()
+    }
 
 }
