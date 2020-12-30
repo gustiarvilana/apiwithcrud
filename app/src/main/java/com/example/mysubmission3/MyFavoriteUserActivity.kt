@@ -22,7 +22,6 @@ class MyFavoriteUserActivity : AppCompatActivity() {
 
     companion object{
         private const val EXTRA_STATE = "extra_state"
-        private const val PARCELABLE = "parcelable"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

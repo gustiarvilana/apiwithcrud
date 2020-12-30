@@ -6,7 +6,7 @@ internal class DatabaseContract {
 
     internal class FavColumns : BaseColumns {
         companion object{
-            const val TABLE_NAME ="user_fav"
+            const val TABLE_NAME ="note"
             const val _ID ="_id"
             const val USERNAME ="username"
             const val URL ="url"

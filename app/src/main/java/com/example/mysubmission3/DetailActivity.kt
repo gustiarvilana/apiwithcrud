@@ -93,17 +93,11 @@ class DetailActivity : AppCompatActivity() {
                 values.put(DatabaseContract.FavColumns.IMAGE, image)
                 favoriteHelper.insert(values)
 
-                val user = ModelData()
-                user.userName = userName
-                favAdapter.addItem(user)
-
-
                 "Satu item berhasil ditambah".showSnackbarMessage()
                 statusFavorite = true
 
             } else {
-                favoriteHelper.deleteByUser(userName)
-                
+                favoriteHelper.deleteById(id.toString())
                 "Satu item berhasil dihapus".showSnackbarMessage()
                 statusFavorite = false
             }

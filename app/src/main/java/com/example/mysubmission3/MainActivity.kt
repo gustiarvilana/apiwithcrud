@@ -53,15 +53,6 @@ class MainActivity : AppCompatActivity() {
 
         favoriteHelper = FavoriteHelper.getInstance(applicationContext)
         favoriteHelper.open()
-
-        mainViewModel.setUseractive()
-        adapter.setOnItemClickCallBack(object : ListAdapter.OnitemClikCallBack{
-            override fun onItemCliked(data: ModelData) {
-                showSelectedUser(data)
-            }
-
-        })
-        showLoading(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
