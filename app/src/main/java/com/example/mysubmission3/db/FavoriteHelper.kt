@@ -35,7 +35,7 @@ class FavoriteHelper(context: Context){
 
     fun queryAll(): Cursor {
         return database.query(
-                DATABASE_TABLE,
+                TABLE_NAME,
                 null,
                 null,
                 null,
@@ -45,7 +45,7 @@ class FavoriteHelper(context: Context){
     }
     fun queryById(id: String): Cursor {
         return database.query(
-                DATABASE_TABLE,
+                TABLE_NAME,
                 null,
                 "$_ID = ?",
                 arrayOf(id),
@@ -56,7 +56,7 @@ class FavoriteHelper(context: Context){
     }
     fun queryByUsername(username: String): Cursor {
         return database.query(
-                DATABASE_TABLE,
+                TABLE_NAME,
                 null,
                 "$USERNAME = ?",
                 arrayOf(username),
@@ -66,12 +66,12 @@ class FavoriteHelper(context: Context){
                 null)
     }
     fun insert(values: ContentValues?): Long {
-        return database.insert(DATABASE_TABLE, null, values)
+        return database.insert(TABLE_NAME, null, values)
     }
     fun update(id: String, values: ContentValues?): Int {
-        return database.update(DATABASE_TABLE, values, "$_ID = ?", arrayOf(id))
+        return database.update(TABLE_NAME, values, "$_ID = ?", arrayOf(id))
     }
-    fun deleteById(id: String): Int {
-        return database.delete(DATABASE_TABLE, "$_ID = '$id'", null)
+    fun deleteByUser(username: String): Int {
+        return database.delete(TABLE_NAME, "$USERNAME = '$username'", null)
     }
 }

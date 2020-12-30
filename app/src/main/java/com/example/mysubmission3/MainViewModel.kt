@@ -8,6 +8,7 @@ import com.example.mysubmission3.entity.ModelData
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
+import org.json.JSONArray
 import org.json.JSONObject
 
 class MainViewModel: ViewModel() {
@@ -54,6 +55,50 @@ class MainViewModel: ViewModel() {
 
                 Log.d("onFailure", error.message.toString())
             }
+        })
+    }
+
+    fun setUseractive(){
+        val listUser = ArrayList<ModelData>()
+
+        val url = "https://api.github.com/users"
+
+        val client = AsyncHttpClient()
+        client.addHeader("Authorization","85db2f7ce22363957778d2f225b0e9d93ac28077")
+        client.addHeader("User-Agent","request")
+        client.get(url, object : AsyncHttpResponseHandler(){
+            override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
+                val result = String(responseBody)
+                Log.d("Follower", result)
+                try {
+                    // parsing
+                    val jsonrray = JSONArray(result)
+
+                    for (i in 0 until jsonrray.length()) {
+                        val item = jsonrray.getJSONObject(i)
+                        val user = ModelData()
+                        user.id = item.getString("id")
+                        user.image = item.getString("avatar_url")
+                        user.userName = item.getString("login")
+                        user.url = item.getString("html_url")
+
+                        listUser.add(user)
+                    }
+                    Log.d("data", listUser.toString())
+
+                    //set data ke adapter
+                    listUsers.postValue(listUser)
+
+
+                }catch (e: Exception){
+                    Log.d("Exception", e.message.toString())
+                }
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>, responseBody: ByteArray?, error: Throwable) {
+                Log.d("onFailure", error.message.toString())
+            }
+
         })
     }
 

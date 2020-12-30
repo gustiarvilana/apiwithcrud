@@ -102,7 +102,8 @@ class DetailActivity : AppCompatActivity() {
                 statusFavorite = true
 
             } else {
-                favoriteHelper.deleteById(id.toString())
+                favoriteHelper.deleteByUser(userName)
+                
                 "Satu item berhasil dihapus".showSnackbarMessage()
                 statusFavorite = false
             }

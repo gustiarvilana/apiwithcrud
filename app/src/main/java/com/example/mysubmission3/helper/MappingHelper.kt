@@ -11,7 +11,7 @@ object MappingHelper {
 
         notesCursor?.apply {
             while (moveToNext()) {
-                val id = getInt(getColumnIndexOrThrow(DatabaseContract.FavColumns._ID))
+                val id = getString(getColumnIndexOrThrow(DatabaseContract.FavColumns._ID))
                 val username = getString(getColumnIndexOrThrow(DatabaseContract.FavColumns.USERNAME))
                 val url = getString(getColumnIndexOrThrow(DatabaseContract.FavColumns.URL))
                 val image = getString(getColumnIndexOrThrow(DatabaseContract.FavColumns.IMAGE))
