@@ -61,6 +61,9 @@ class DetailActivity : AppCompatActivity() {
         val url = intentUsers.url.toString()
         val image = intentUsers.image.toString()
         val id = intentUsers.id
+        Log.d("log api user: ", userName)
+        Log.d("log api url: ", url)
+        Log.d("log api image: ", image)
 
         val pagerAdapter = PagerAdapter(
                 userName,
@@ -88,6 +91,7 @@ class DetailActivity : AppCompatActivity() {
                 values.put(DatabaseContract.FavColumns.USERNAME, userName)
                 values.put(DatabaseContract.FavColumns.URL, url)
                 values.put(DatabaseContract.FavColumns.IMAGE, image)
+                Log.d("log api val: ", values.toString())
 
                 favoriteHelper.insert(values)
                 "Satu item berhasil ditambah".showSnackbarMessage()
