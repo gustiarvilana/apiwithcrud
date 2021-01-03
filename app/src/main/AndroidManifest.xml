@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySubmission3"
         tools:ignore="AllowBackup">
-        <activity android:name=".MyFavoriteUserActivity"></activity>
+        <activity android:name=".SettingHolderActivity"></activity>
+        <activity android:name=".Setting_Fragment" />
+        <activity android:name=".MyFavoriteUserActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

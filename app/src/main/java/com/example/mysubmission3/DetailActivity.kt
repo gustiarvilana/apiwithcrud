@@ -3,7 +3,6 @@ package com.example.mysubmission3
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -32,17 +31,17 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val INTENT_PARCELABLE = "intent_parcelable"
-        const val EXTRA_USERNAME = "extra_username"
-        const val EXTRA_URL = "extra_URL"
-        const val EXTRA_IMAGE = "extra_image"
-        const val EXTRA_POSITION = "extra_position"
-        const val REQUEST_ADD = 100
-        const val RESULT_ADD = 101
-        const val REQUEST_UPDATE = 200
-        const val RESULT_UPDATE = 201
-        const val RESULT_DELETE = 301
-        const val ALERT_DIALOG_CLOSE = 10
-        const val ALERT_DIALOG_DELETE = 20
+//        const val EXTRA_USERNAME = "extra_username"
+//        const val EXTRA_URL = "extra_URL"
+//        const val EXTRA_IMAGE = "extra_image"
+//        const val EXTRA_POSITION = "extra_position"
+//        const val REQUEST_ADD = 100
+//        const val RESULT_ADD = 101
+//        const val REQUEST_UPDATE = 200
+//        const val RESULT_UPDATE = 201
+//        const val RESULT_DELETE = 301
+//        const val ALERT_DIALOG_CLOSE = 10
+//        const val ALERT_DIALOG_DELETE = 20
     }
 
     private var title = "Detail User"
@@ -97,7 +96,7 @@ class DetailActivity : AppCompatActivity() {
                 statusFavorite = true
 
             } else {
-                favoriteHelper.deleteById(id.toString())
+                favoriteHelper.deleteByUsername(userName)
                 "Satu item berhasil dihapus".showSnackbarMessage()
                 statusFavorite = false
             }
@@ -124,10 +123,6 @@ class DetailActivity : AppCompatActivity() {
         setStatusFavorite(statusFavorite)
         Log.d("uname =", username)
     }
-
-
-
-
 
     private fun showDetail(userName: String){
 
@@ -208,8 +203,10 @@ class DetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(v: MenuItem): Boolean {
         when(v.itemId){
             R.id.setting ->{
-                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                val mIntent = Intent(this@DetailActivity, SettingHolderActivity::class.java)
                 startActivity(mIntent)
+//                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+//                startActivity(mIntent)
             }
             R.id.mfavorite -> {
                 val intent = Intent(this@DetailActivity, MyFavoriteUserActivity::class.java)

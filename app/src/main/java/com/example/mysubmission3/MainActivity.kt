@@ -4,7 +4,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -53,6 +52,17 @@ class MainActivity : AppCompatActivity() {
 
         favoriteHelper = FavoriteHelper.getInstance(applicationContext)
         favoriteHelper.open()
+
+        mainViewModel.setUserActive()
+        adapter.setOnItemClickCallBack(object : ListAdapter.OnitemClikCallBack{
+            override fun onItemCliked(data: ModelData) {
+                showSelectedUser(data)
+            }
+
+        })
+        showLoading(false)
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -100,12 +110,28 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(v: MenuItem): Boolean {
         when(v.itemId){
             R.id.setting ->{
-                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                val mIntent = Intent(this@MainActivity, SettingHolderActivity::class.java)
                 startActivity(mIntent)
+//                val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+//                startActivity(mIntent)
+            }
+            R.id.mfavorite -> {
+                val intent = Intent(this@MainActivity, MyFavoriteUserActivity::class.java)
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(v)
     }
+
+//    val intent = Intent(this@DetailActivity, MyFavoriteUserActivity::class.java)
+//    startActivity(intent)
+//
+//    adapter.setOnItemClickCallBack(object : ListAdapter.OnitemClikCallBack{
+//        override fun onItemCliked(data: ModelData) {
+//            showSelectedUser(data)
+//        }
+//
+//    })
 
     private fun showSelectedUser(user: ModelData){
         Toast.makeText(this, "Kamu memilih ${user.userName}", Toast.LENGTH_SHORT).show()

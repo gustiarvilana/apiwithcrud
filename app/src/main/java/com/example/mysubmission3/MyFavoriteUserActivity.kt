@@ -1,7 +1,9 @@
 package com.example.mysubmission3
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mysubmission3.adapter.ListAdapter
@@ -46,6 +48,13 @@ class MyFavoriteUserActivity : AppCompatActivity() {
                 favAdapter.listData = list
             }
         }
+
+        favAdapter.setOnItemClickCallBack(object : ListAdapter.OnitemClikCallBack{
+            override fun onItemCliked(data: ModelData) {
+                showSelectedUser(data)
+            }
+
+        })
     }
 
     private fun loadFavAsync() {
@@ -72,6 +81,13 @@ class MyFavoriteUserActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(EXTRA_STATE, favAdapter.listData)
+    }
+
+    private fun showSelectedUser(user: ModelData){
+        Toast.makeText(this, "Kamu memilih ${user.userName}", Toast.LENGTH_SHORT).show()
+        val intentData = Intent(this@MyFavoriteUserActivity, DetailActivity::class.java)
+        intentData.putExtra(DetailActivity.INTENT_PARCELABLE, user)
+        startActivity(intentData)
     }
 
     override fun onDestroy() {
