@@ -72,6 +72,6 @@ class FavoriteHelper(context: Context){
         return database.update(DATABASE_TABLE, values, "$_ID = ?", arrayOf(id))
     }
     fun deleteByUsername(username: String): Int {
-        return database.delete(DATABASE_TABLE, "$_ID = '$username'", null)
+        return database.delete(DATABASE_TABLE, "$USERNAME = '$username'", null)
     }
 }

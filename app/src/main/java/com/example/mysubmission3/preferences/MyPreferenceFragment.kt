@@ -38,9 +38,11 @@ class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == ALARM) {
-            alarmPreference.isChecked = sharedPreferences.getBoolean(ALARM, false)
+        if (alarmPreference.isChecked) {
+            Toast.makeText(activity, "Toast true", Toast.LENGTH_SHORT).show()
+        }else{
             Toast.makeText(activity, "Toast false", Toast.LENGTH_SHORT).show()
+
         }
     }
 

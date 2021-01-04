@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,8 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySubmission3"
         tools:ignore="AllowBackup">
-        <activity android:name=".SettingHolderActivity"></activity>
-        <activity android:name=".Setting_Fragment" />
+        <activity android:name=".SettingHolderActivity"/>
         <activity android:name=".MyFavoriteUserActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
