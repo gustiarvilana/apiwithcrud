@@ -8,10 +8,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -35,7 +35,10 @@ class AlarmReceiver : BroadcastReceiver() {
 
         showToast(context)
 
-        message?.let { showAlarmNotification(context, it) }
+//        message?.let { showAlarmNotification(context, it) }
+        showAlarmNotification(context, message,110)
+
+
     }
 
     fun setRepeatingAlarm(context: Context?, type: String, time: String, message: String){
@@ -69,23 +72,33 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun showAlarmNotification(context: Context, message: String){
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://dicoding.com"))
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+    private fun showAlarmNotification(context: Context, message: String?, notifId: Int){
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://dicoding.com"))
+//        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val CHANNEL_ID = "Channel_1"
         val CHANNEL_NAME = "AlarmManager channel"
 
+        val notifDetailIntent = Intent( context, MainActivity::class.java)
+        val pendingIntent = TaskStackBuilder.create(context)
+                .addParentStack(DetailActivity::class.java)
+                .addNextIntent(notifDetailIntent)
+                .getPendingIntent(110, PendingIntent.FLAG_UPDATE_CURRENT)
+
+
         val notificationManagerCompat = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentIntent(pendingIntent)
+//                .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.ic_access_alarm_24)
                 .setContentTitle(TYPE_REPEATING)
                 .setContentText(message)
                 .setColor(ContextCompat.getColor(context, android.R.color.transparent))
                 .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
                 .setSound(alarmSound)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID,
@@ -103,7 +116,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val notification = builder.build()
 
-        notificationManagerCompat.notify(ID_REPEATING, notification)
+        notificationManagerCompat.notify(notifId, notification)
     }
 
     fun cancelAlarm(context: Context?) {
