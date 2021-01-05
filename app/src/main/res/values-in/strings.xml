@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_title">Cari di sini</string>
+    <string name="search">Cari</string>
+    <string name="setting">Pengaturan</string>
+
+    <string name="tab_following">Mengikuti</string>
+    <string name="tab_folower">Pengikut</string>
+
+    <string name="tx_error">Gagal</string>
+    <string name="gist">Gist</string>
+</resources>

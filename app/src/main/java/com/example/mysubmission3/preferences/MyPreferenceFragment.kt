@@ -1,5 +1,7 @@
 package com.example.mysubmission3.preferences
 
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
@@ -7,7 +9,9 @@ import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.example.mysubmission3.AlarmReceiver
+import com.example.mysubmission3.MainActivity
 import com.example.mysubmission3.R
+import java.util.*
 
 
 class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -22,12 +26,11 @@ class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
 
     private lateinit var langPreference: ListPreference
 
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, s: String?) {
         addPreferencesFromResource(R.xml.preferences)
+        retainInstance = true
         init()
         setSummaries()
-
         alarmReceiver = AlarmReceiver()
     }
 
@@ -36,7 +39,7 @@ class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
         LANG = resources.getString(R.string.key_lang)
 
         alarmPreference = findPreference<SwitchPreference>(ALARM) as SwitchPreference
-//        langPreference = findPreference<ListPreference>(LANG) as ListPreference
+        langPreference = findPreference<ListPreference>(LANG) as ListPreference
     }
 
     override fun onResume() {
@@ -52,20 +55,30 @@ class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (alarmPreference.isChecked) {
-            Toast.makeText(activity, "Toast true", Toast.LENGTH_SHORT).show()
-            setAllarm()
-        }else{
-            cancelAllarm()
-            Toast.makeText(activity, "Toast false", Toast.LENGTH_SHORT).show()
+        if (key == ALARM){
+            if (alarmPreference.isChecked) {
+                Toast.makeText(activity, "Toast true", Toast.LENGTH_SHORT).show()
+                setAllarm()
+            }else{
+                cancelAllarm()
+                Toast.makeText(activity, "Toast false", Toast.LENGTH_SHORT).show()
+            }
         }
 
-//        if (langPreference.value == "English"){
-//            Toast.makeText(activity, "Toast lang english", Toast.LENGTH_SHORT).show()
-//        }else{
-//            Toast.makeText(activity, "Toast lang indo", Toast.LENGTH_SHORT).show()
-//
-//        }
+        if (key == LANG){
+            val intent = Intent(context, MainActivity::class.java)
+//            setLang(context, "id")
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+//            if (langPreference.value == "English"){
+//                setLang(context,"en")
+//                Toast.makeText(activity, "Toast lang English", Toast.LENGTH_SHORT).show()
+//            }else{
+//                setLang(context,"in")
+//                Toast.makeText(activity, "Toast lang indo", Toast.LENGTH_SHORT).show()
+//            }
+        }
     }
 
     private fun setAllarm(){
@@ -83,4 +96,15 @@ class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
         val sh = preferenceManager.sharedPreferences
         alarmPreference.isChecked = sh.getBoolean(ALARM, false)
     }
+
+    private fun setLang(context: Context?, selectedLanguage: String){
+        val locale = Locale(selectedLanguage)
+        Locale.setDefault(locale)
+        val resource = context?.resources
+        val config = resource?.configuration
+        config?.setLocale(locale)
+        @Suppress("DEPRECATION")
+        context?.resources?.updateConfiguration(config, null)
+    }
+
 }

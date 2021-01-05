@@ -6,10 +6,11 @@
         android:icon="@drawable/ic_notifications_24"
         android:key="@string/key_alarm"
         android:title="Reminder at 9.00 AM" />
-    <ListPreference
 
-        android:entries="@array/app_language"
-        android:entryValues="@array/app_language"
+    <ListPreference
+        android:defaultValue="en"
+        android:entries="@array/language_entries"
+        android:entryValues="@array/language_values"
         android:key="@string/key_lang"
         android:title="List preference" />
 

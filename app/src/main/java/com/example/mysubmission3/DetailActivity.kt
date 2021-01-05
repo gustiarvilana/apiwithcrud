@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.mysubmission3.adapter.ListAdapter
 import com.example.mysubmission3.adapter.PagerAdapter
@@ -24,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_detail.*
 import org.json.JSONObject
 
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var favAdapter: ListAdapter

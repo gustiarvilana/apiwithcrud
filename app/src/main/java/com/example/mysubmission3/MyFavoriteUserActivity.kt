@@ -16,7 +16,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class MyFavoriteUserActivity : AppCompatActivity() {
+class MyFavoriteUserActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMyFavoriteUserBinding
     private lateinit var favAdapter: ListAdapter
