@@ -10,7 +10,13 @@
 
     <string name="tx_error">Gagal</string>
     <string name="gist">Gist</string>
-    <string name="key_alarm">alarm</string>
+    <string name="key_alarm" translatable="false">alarm</string>
+    <string name="key_lang" translatable="false">bahasa</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="app_language">
+        <item>English</item>
+        <item>Indonesia</item>
+    </string-array>
+
 </resources>
