@@ -79,12 +79,11 @@ class MyFavoriteUserActivity : BaseActivity() {
             }
 
         })
+
+        Log.d("test URI = ", CONTENT_URI.toString())
     }
 
     private fun loadFavAsync() {
-//        val user = favHelper.queryAll()
-//        MappingHelper.mapCursorToArrayList(user)
-//        Log.d("val user = ", user.toString())
 
         GlobalScope.launch(Dispatchers.Main) {
             binding.progressBar.visibility = View.VISIBLE
@@ -94,7 +93,6 @@ class MyFavoriteUserActivity : BaseActivity() {
             }
             val user = deferredNotes.await()
             binding.progressBar.visibility = View.INVISIBLE
-            Log.d("data user = ", user.toString())
             if (user.size > 0) {
                 favAdapter.setData(user)
 

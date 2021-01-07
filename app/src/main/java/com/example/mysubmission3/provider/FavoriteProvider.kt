@@ -15,13 +15,14 @@ class FavoriteProvider : ContentProvider() {
 
     companion object {
         private const val FAVORITE = 1
-        private const val FAVORITE_ID = 2
+        //private const val FAVORITE_ID = 2
+        private const val FAVORITE_USERNAME = 3
         private lateinit var favHelper: FavoriteHelper
         private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
         init {
             sUriMatcher.addURI(AUTHORITY, TABLE_NAME, FAVORITE)
-            sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", FAVORITE_ID)
+            sUriMatcher.addURI(AUTHORITY, "$TABLE_NAME/*", FAVORITE_USERNAME)
         }
     }
 
@@ -34,11 +35,11 @@ class FavoriteProvider : ContentProvider() {
     override fun query(uri: Uri, strings: Array<String>?, s: String?, strings1: Array<String>?, s1: String?): Cursor? {
         return when (sUriMatcher.match(uri)) {
             FAVORITE -> favHelper.queryAll()
-            FAVORITE_ID -> favHelper.queryById(uri.lastPathSegment.toString())
+//            FAVORITE_ID -> favHelper.queryById(uri.lastPathSegment.toString())
+            FAVORITE_USERNAME -> favHelper.queryByUsername(uri.lastPathSegment.toString())
             else -> null
         }
     }
-
 
     override fun getType(uri: Uri): String? {
         return null
@@ -58,7 +59,7 @@ class FavoriteProvider : ContentProvider() {
 
 
     override fun update(uri: Uri, contentValues: ContentValues?, s: String?, strings: Array<String>?): Int {
-        val updated: Int = when (FAVORITE_ID) {
+        val updated: Int = when (FAVORITE_USERNAME) {
             sUriMatcher.match(uri) -> favHelper.update(uri.lastPathSegment.toString(),contentValues)
             else -> 0
         }
@@ -69,8 +70,8 @@ class FavoriteProvider : ContentProvider() {
     }
 
     override fun delete(uri: Uri, s: String?, strings: Array<String>?): Int {
-        val deleted: Int = when (FAVORITE_ID) {
-            sUriMatcher.match(uri) -> favHelper.deleteById(uri.lastPathSegment.toString())
+        val deleted: Int = when (FAVORITE_USERNAME) {
+            sUriMatcher.match(uri) -> favHelper.deleteByUsername(uri.lastPathSegment.toString())
             else -> 0
         }
 

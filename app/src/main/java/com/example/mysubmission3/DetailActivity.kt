@@ -2,6 +2,7 @@ package com.example.mysubmission3
 
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,6 +14,7 @@ import com.example.mysubmission3.adapter.ListAdapter
 import com.example.mysubmission3.adapter.PagerAdapter
 import com.example.mysubmission3.databinding.ActivityDetailBinding
 import com.example.mysubmission3.db.DatabaseContract
+import com.example.mysubmission3.db.DatabaseContract.FavColumns.Companion.CONTENT_URI
 import com.example.mysubmission3.db.FavoriteHelper
 import com.example.mysubmission3.entity.ModelData
 import com.example.mysubmission3.helper.MappingHelper
@@ -27,6 +29,8 @@ class DetailActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var favAdapter: ListAdapter
+    private lateinit var uriWithUser: Uri
+
 
     companion object {
         const val INTENT_PARCELABLE = "intent_parcelable"
@@ -68,9 +72,12 @@ class DetailActivity : BaseActivity() {
         supportActionBar?.title = title
 
         loadFavAsync(userName)
+
         setStatusFavorite(statusFavorite)
         binding.fab.setOnClickListener {
             statusFavorite = !statusFavorite
+
+            uriWithUser = Uri.parse("$CONTENT_URI/$userName")
             if (statusFavorite) {
 
                 val values = ContentValues()
@@ -78,13 +85,13 @@ class DetailActivity : BaseActivity() {
                 values.put(DatabaseContract.FavColumns.USERNAME, userName)
                 values.put(DatabaseContract.FavColumns.URL, url)
                 values.put(DatabaseContract.FavColumns.IMAGE, image)
-                favoriteHelper.insert(values)
+                contentResolver.insert(CONTENT_URI, values)
 
                 "Satu item berhasil ditambah".showSnackbarMessage()
                 statusFavorite = true
 
             } else {
-                favoriteHelper.deleteByUsername(userName)
+                contentResolver.delete(uriWithUser,null,null)
                 "Satu item berhasil dihapus".showSnackbarMessage()
                 statusFavorite = false
             }
