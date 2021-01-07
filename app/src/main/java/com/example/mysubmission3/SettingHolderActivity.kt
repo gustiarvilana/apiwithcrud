@@ -8,6 +8,5 @@ class SettingHolderActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting_holder)
         supportFragmentManager.beginTransaction().add(R.id.setting_holder_main, MyPreferenceFragment()).commit()
-
     }
 }

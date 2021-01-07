@@ -16,7 +16,6 @@ object DatabaseContract {
             const val URL ="url"
             const val IMAGE ="image"
 
-            // untuk membuat URI content://com.example.mysubmission3/favorite
             val CONTENT_URI: Uri = Uri.Builder().scheme(SCHEME)
                     .authority(AUTHORITY)
                     .appendPath(TABLE_NAME)

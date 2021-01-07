@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ConsumerApp</string>
+
+    <string name="search_title">Search Here</string>
+    <string name="search">Search</string>
+    <string name="setting">Setting</string>
+
+    <string name="tab_following">Following</string>
+    <string name="tab_folower">Follower</string>
+
+    <string name="tx_error">Faied</string>
+    <string name="gist">Gist</string>
+</resources>

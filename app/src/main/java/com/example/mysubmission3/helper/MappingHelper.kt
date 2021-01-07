@@ -20,17 +20,4 @@ object MappingHelper {
         }
         return notesList
     }
-
-    fun mapCursorToObject(notesCursor: Cursor?): ModelData {
-        var favorite = ModelData()
-        notesCursor?.apply {
-            moveToFirst()
-            val id = getString(getColumnIndexOrThrow(DatabaseContract.FavColumns._ID))
-            val username = getString(getColumnIndexOrThrow(DatabaseContract.FavColumns.USERNAME))
-            val url = getString(getColumnIndexOrThrow(DatabaseContract.FavColumns.URL))
-            val image = getString(getColumnIndexOrThrow(DatabaseContract.FavColumns.IMAGE))
-            favorite = ModelData(id, username, url, image)
-        }
-        return favorite
-    }
 }

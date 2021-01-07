@@ -24,19 +24,19 @@
             android:enabled="true"
             android:exported="true"
             android:readPermission="com.example.mysubmission3.READ_DATABASE"
-            android:writePermission="com.example.mysubmission3.WRITE_DATABASE"    />
+            android:writePermission="com.example.mysubmission3.WRITE_DATABASE"/>
 
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"/>
 
         <activity android:name=".SettingHolderActivity" />
         <activity android:name=".MyFavoriteUserActivity" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop">
-            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

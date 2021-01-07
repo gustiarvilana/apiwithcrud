@@ -15,7 +15,6 @@ class FavoriteProvider : ContentProvider() {
 
     companion object {
         private const val FAVORITE = 1
-        //private const val FAVORITE_ID = 2
         private const val FAVORITE_USERNAME = 3
         private lateinit var favHelper: FavoriteHelper
         private val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
@@ -35,7 +34,6 @@ class FavoriteProvider : ContentProvider() {
     override fun query(uri: Uri, strings: Array<String>?, s: String?, strings1: Array<String>?, s1: String?): Cursor? {
         return when (sUriMatcher.match(uri)) {
             FAVORITE -> favHelper.queryAll()
-//            FAVORITE_ID -> favHelper.queryById(uri.lastPathSegment.toString())
             FAVORITE_USERNAME -> favHelper.queryByUsername(uri.lastPathSegment.toString())
             else -> null
         }
@@ -44,7 +42,6 @@ class FavoriteProvider : ContentProvider() {
     override fun getType(uri: Uri): String? {
         return null
     }
-
 
     override fun insert(uri: Uri, contentValues: ContentValues?): Uri? {
         val added: Long = when (FAVORITE) {
@@ -56,7 +53,6 @@ class FavoriteProvider : ContentProvider() {
 
         return Uri.parse("$CONTENT_URI/$added")
     }
-
 
     override fun update(uri: Uri, contentValues: ContentValues?, s: String?, strings: Array<String>?): Int {
         val updated: Int = when (FAVORITE_USERNAME) {

@@ -1,6 +1,5 @@
 package com.example.mysubmission3.preferences
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,14 +10,12 @@ import androidx.preference.SwitchPreference
 import com.example.mysubmission3.AlarmReceiver
 import com.example.mysubmission3.MainActivity
 import com.example.mysubmission3.R
-import java.util.*
 
 
 class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var ALARM: String
     private lateinit var LANG: String
-
 
     private lateinit var alarmPreference: SwitchPreference
 
@@ -67,17 +64,10 @@ class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
 
         if (key == LANG){
             val intent = Intent(context, MainActivity::class.java)
-//            setLang(context, "id")
+
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
-//            if (langPreference.value == "English"){
-//                setLang(context,"en")
-//                Toast.makeText(activity, "Toast lang English", Toast.LENGTH_SHORT).show()
-//            }else{
-//                setLang(context,"in")
-//                Toast.makeText(activity, "Toast lang indo", Toast.LENGTH_SHORT).show()
-//            }
         }
     }
 
@@ -96,15 +86,4 @@ class MyPreferenceFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
         val sh = preferenceManager.sharedPreferences
         alarmPreference.isChecked = sh.getBoolean(ALARM, false)
     }
-
-    private fun setLang(context: Context?, selectedLanguage: String){
-        val locale = Locale(selectedLanguage)
-        Locale.setDefault(locale)
-        val resource = context?.resources
-        val config = resource?.configuration
-        config?.setLocale(locale)
-        @Suppress("DEPRECATION")
-        context?.resources?.updateConfiguration(config, null)
-    }
-
 }

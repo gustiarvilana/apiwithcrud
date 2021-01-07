@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mysubmission3.adapter.ListAdapter
 import com.example.mysubmission3.databinding.ActivityMyFavoriteUserBinding
 import com.example.mysubmission3.db.DatabaseContract.FavColumns.Companion.CONTENT_URI
-import com.example.mysubmission3.db.FavoriteHelper
 import com.example.mysubmission3.entity.ModelData
 import com.example.mysubmission3.helper.MappingHelper
 import com.google.android.material.snackbar.Snackbar
@@ -25,7 +24,6 @@ class MyFavoriteUserActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMyFavoriteUserBinding
     private lateinit var favAdapter: ListAdapter
-    private lateinit var favHelper: FavoriteHelper
 
     companion object {
         private const val EXTRA_STATE = "extra_state"
@@ -41,10 +39,6 @@ class MyFavoriteUserActivity : BaseActivity() {
         favAdapter = ListAdapter()
         binding.rvFavorite.adapter = favAdapter
 
-        favHelper = FavoriteHelper.getInstance(applicationContext)
-        favHelper.open()
-
-        //
         val handlerThread = HandlerThread("DataObserver")
         handlerThread.start()
         val handler = Handler(handlerThread.looper)
@@ -63,23 +57,12 @@ class MyFavoriteUserActivity : BaseActivity() {
         } else {
             savedInstanceState.getParcelableArrayList<ModelData>(EXTRA_STATE)?.also { favAdapter.listData = it }
         }
-//
-//        if (savedInstanceState == null) {
-//            ()
-//        }else{
-//            val list = savedInstanceState.getParcelableArrayList<ModelData>(EXTRA_STATE)
-//            if (list != null){
-//                favAdapter.listData = list
-//            }
-//        }
 
         favAdapter.setOnItemClickCallBack(object : ListAdapter.OnitemClikCallBack {
             override fun onItemCliked(data: ModelData) {
                 showSelectedUser(data)
             }
-
         })
-
         Log.d("test URI = ", CONTENT_URI.toString())
     }
 
@@ -95,7 +78,6 @@ class MyFavoriteUserActivity : BaseActivity() {
             binding.progressBar.visibility = View.INVISIBLE
             if (user.size > 0) {
                 favAdapter.setData(user)
-
             } else {
                 favAdapter.listData = ArrayList()
                 showSnackBarMessage("Tidak ada data saat ini")
@@ -118,10 +100,4 @@ class MyFavoriteUserActivity : BaseActivity() {
     private fun showSnackBarMessage(message: String) {
         Snackbar.make(binding.settingHolderFav, message, Snackbar.LENGTH_SHORT).show()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        favHelper.close()
-    }
-
 }

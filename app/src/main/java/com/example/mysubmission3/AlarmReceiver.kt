@@ -31,14 +31,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val message = intent.getStringExtra(EXTRA_MESSAGE)
-
-
         showToast(context)
 
-//        message?.let { showAlarmNotification(context, it) }
         showAlarmNotification(context, message,110)
-
-
     }
 
     fun setRepeatingAlarm(context: Context?, type: String, time: String, message: String){
@@ -73,8 +68,6 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun showAlarmNotification(context: Context, message: String?, notifId: Int){
-//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://dicoding.com"))
-//        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val CHANNEL_ID = "Channel_1"
         val CHANNEL_NAME = "AlarmManager channel"
@@ -84,7 +77,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 .addParentStack(DetailActivity::class.java)
                 .addNextIntent(notifDetailIntent)
                 .getPendingIntent(110, PendingIntent.FLAG_UPDATE_CURRENT)
-
 
         val notificationManagerCompat = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -99,7 +91,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID,
                 CHANNEL_NAME,
@@ -111,7 +102,6 @@ class AlarmReceiver : BroadcastReceiver() {
             builder.setChannelId(CHANNEL_ID)
 
             notificationManagerCompat.createNotificationChannel(channel)
-
         }
 
         val notification = builder.build()

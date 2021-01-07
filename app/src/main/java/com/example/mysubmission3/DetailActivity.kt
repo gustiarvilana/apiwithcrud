@@ -15,7 +15,6 @@ import com.example.mysubmission3.adapter.PagerAdapter
 import com.example.mysubmission3.databinding.ActivityDetailBinding
 import com.example.mysubmission3.db.DatabaseContract
 import com.example.mysubmission3.db.DatabaseContract.FavColumns.Companion.CONTENT_URI
-import com.example.mysubmission3.db.FavoriteHelper
 import com.example.mysubmission3.entity.ModelData
 import com.example.mysubmission3.helper.MappingHelper
 import com.loopj.android.http.AsyncHttpClient
@@ -31,14 +30,11 @@ class DetailActivity : BaseActivity() {
     private lateinit var favAdapter: ListAdapter
     private lateinit var uriWithUser: Uri
 
-
     companion object {
         const val INTENT_PARCELABLE = "intent_parcelable"
     }
 
     private var title = "Detail User"
-
-    private lateinit var favoriteHelper: FavoriteHelper
 
     private var statusFavorite = false
 
@@ -65,9 +61,6 @@ class DetailActivity : BaseActivity() {
         showDetail(userName)
 
         favAdapter= ListAdapter()
-
-        favoriteHelper = FavoriteHelper.getInstance(applicationContext)
-        favoriteHelper.open()
 
         supportActionBar?.title = title
 
@@ -107,16 +100,17 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    private fun loadFavAsync(username: String) {
+    private fun loadFavAsync(fav: String) {
+        val uri = Uri.parse("$CONTENT_URI/$fav")
 
-        val cursor = favoriteHelper.queryByUsername(username)
+        val cursor = contentResolver.query(uri, null, null, null, null)
         val listfav =  MappingHelper.mapCursorToArrayList(cursor)
 
         if (listfav.size > 0) {
             statusFavorite = true
         }
         setStatusFavorite(statusFavorite)
-        Log.d("uname =", username)
+        Log.d("uname =", fav)
     }
 
     private fun showDetail(userName: String){
@@ -124,7 +118,7 @@ class DetailActivity : BaseActivity() {
         val url = "https://api.github.com/users/$userName"
 
         val client = AsyncHttpClient()
-        client.addHeader("Authorization","93dc24a00c12e8e45af2037623c3d1eba8589397")
+        client.addHeader("Authorization","8aead0474ce747174c61c6fa0fc69d2b55c97c61")
         client.addHeader("User-Agent","request")
         client.get(url, object : AsyncHttpResponseHandler(){
             override fun onSuccess(statusCode: Int, headers: Array<Header>, responseBody: ByteArray) {
@@ -152,9 +146,7 @@ class DetailActivity : BaseActivity() {
                     binding.tvFollower.text = follower.toString()
                     binding.tvFollowing.text = following.toString()
 
-
                     showLoading(false)
-
 
                 }catch (e: Exception){
                     Log.d("Exception", e.message.toString())
@@ -214,11 +206,5 @@ class DetailActivity : BaseActivity() {
     private fun String.showSnackbarMessage() {
         Toast.makeText(this@DetailActivity, this, Toast.LENGTH_SHORT).show()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        favoriteHelper.close()
-    }
-
 }
 
