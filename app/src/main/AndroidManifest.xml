@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <permission android:name="com.example.mysubmission3.READ_DATABASE" android:protectionLevel="normal"/>
+    <permission android:name="com.example.mysubmission3.WRITE_DATABASE" android:protectionLevel="normal"/>
+
     <application
         android:configChanges="locale"
         android:icon="@mipmap/ic_launcher"
@@ -15,10 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySubmission3"
         tools:ignore="AllowBackup">
+        <provider
+            android:name=".provider.FavoriteProvider"
+            android:authorities="com.example.mysubmission3"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.example.mysubmission3.READ_DATABASE"
+            android:writePermission="com.example.mysubmission3.WRITE_DATABASE"    />
+
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <activity android:name=".SettingHolderActivity" />
         <activity android:name=".MyFavoriteUserActivity" />
@@ -34,10 +45,11 @@
         </activity>
         <activity
             android:name=".DetailActivity"
-            android:parentActivityName=".MainActivity"/>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+            android:parentActivityName=".MainActivity" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
     </application>
 
 </manifest>
