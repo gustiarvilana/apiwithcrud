@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".DetailActivity" />
         <activity android:name=".MyFavoriteUserActivity" />
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".SettingHolderActivity" />
     </application>
 
     <queries>
